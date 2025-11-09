@@ -47,6 +47,8 @@ Thumbs.db
 # ログ
 logs/
 *.log
+.chat_logs/*
+!.chat_logs/gitkeep
 
 # テスト
 .coverage
@@ -65,3 +67,5 @@ build/
 *.backup
 *.tfvars
 *.template
+
+sample.html
