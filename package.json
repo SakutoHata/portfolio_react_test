@@ -2,7 +2,7 @@
   "name": "portfolio-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sakuto_hata.github.io/portfolio_react_test",
+  "homepage": "https://sakutohata.github.io/portfolio_react_test",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

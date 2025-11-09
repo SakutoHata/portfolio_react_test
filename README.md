@@ -9,7 +9,7 @@ React + Vite + TypeScriptで構築した個人ポートフォリオサイト
 
 ## ポートフォリオサイト
 
-https://sakuto_hata.github.io/portfolio_react_test/
+https://sakutohata.github.io/portfolio_react_test/
 
 ## 主な機能
 
