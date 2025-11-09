@@ -27,8 +27,8 @@ yarn-error.log*
 
 # CDK
 cdk.out/
-*.js
 *.d.ts
+cdk/**/*.js
 !jest.config.js
 !infrastructure/bin/*.ts
 !infrastructure/lib/*.ts
