@@ -156,7 +156,18 @@ export default function PortfolioPage() {
   ]
 
   // 静的なブログデータ
-  const staticBlogs = [
+  // const staticBlogs = [
+  //   {
+  //     name: "大学からITをはじめた学生のエンジニア就活の備忘録",
+  //     description: "大学生時代の振り返りを大まかに纏めたもの。",
+  //     html_url: "https://zenn.dev/sakuto_hata/articles/fea92a28c76b66",
+  //     date: "2024/11/05",
+  //     topics: ["備忘録", "zenn"],
+  //   },
+  // ]
+
+  // Zenn ブログデータ
+  const staticZennBlogs = [
     {
       name: "大学からITをはじめた学生のエンジニア就活の備忘録",
       description: "大学生時代の振り返りを大まかに纏めたもの。",
@@ -164,7 +175,23 @@ export default function PortfolioPage() {
       date: "2024/11/05",
       topics: ["備忘録", "zenn"],
     },
+  ]
 
+  // Qiita ブログデータ
+  const staticQiitaBlogs: Array<{
+    name: string
+    description: string
+    html_url: string
+    date: string
+    topics: string[]
+  }> = [
+    {
+      name: "【Langfuse】新卒1年目エンジニアが評価駆動でRAGを改善することは可能か検証してみた",
+      description: "Langfuseの活用方法について、独学で得たものをアウトプットしました。",
+      html_url: "https://qiita.com/SakutoHata/items/16d0c326ddd98dd01522",
+      date: "2025/12/18",
+      topics: ["Qiita", "LLMOps", "VertexAI", "Langfuse"],
+    },
   ]
 
   // 静的な登壇データ
@@ -605,98 +632,206 @@ export default function PortfolioPage() {
         {/* Blog Section */}
         <section className="container mx-auto px-4 py-16 border-t border-border">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold tracking-wide mb-8 text-center bg-background/80 backdrop-blur-sm py-3 px-6 rounded-lg inline-block shadow-lg mx-auto block w-fit">
+            {/* 親Blog ヘッダー */}
+            <h2 className="text-3xl font-bold tracking-wide mb-12 text-center bg-background/80 backdrop-blur-sm py-3 px-6 rounded-lg inline-block shadow-lg mx-auto block w-fit">
               Blog
             </h2>
-            {staticBlogs.length === 1 ? (
-              <div>
-                <Card className="p-8 hover:border-foreground/20 transition-colors">
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <h3 className="text-2xl font-medium break-words flex-1">{staticBlogs[0].name}</h3>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className="text-sm text-muted-foreground">{staticBlogs[0].date}</span>
-                        <Button variant="ghost" size="icon" asChild>
-                          <a href={staticBlogs[0].html_url} target="_blank" rel="noopener noreferrer" aria-label="View blog">
-                            <ExternalLink className="h-5 w-5" />
-                          </a>
-                        </Button>
+
+            {/* Zenn サブセクション */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-semibold mb-6 text-center text-foreground/90">Zenn</h3>
+              {staticZennBlogs.length === 1 ? (
+                <div>
+                  <Card className="p-8 hover:border-foreground/20 transition-colors">
+                    <div className="space-y-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <h4 className="text-2xl font-medium break-words flex-1">{staticZennBlogs[0].name}</h4>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <span className="text-sm text-muted-foreground">{staticZennBlogs[0].date}</span>
+                          <Button variant="ghost" size="icon" asChild>
+                            <a href={staticZennBlogs[0].html_url} target="_blank" rel="noopener noreferrer" aria-label="View Zenn blog">
+                              <ExternalLink className="h-5 w-5" />
+                            </a>
+                          </Button>
+                        </div>
+                      </div>
+                      {staticZennBlogs[0].description && (
+                        <p
+                          className="text-foreground/80 leading-relaxed text-base"
+                          dangerouslySetInnerHTML={{ __html: staticZennBlogs[0].description }}
+                        />
+                      )}
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {staticZennBlogs[0].topics.slice(0, 5).map((topic) => (
+                          <Badge key={topic} variant="secondary" className="text-sm">{topic}</Badge>
+                        ))}
                       </div>
                     </div>
-                    {staticBlogs[0].description && (
-                      <p
-                        className="text-foreground/80 leading-relaxed text-base"
-                        dangerouslySetInnerHTML={{ __html: staticBlogs[0].description }}
-                      />
-                    )}
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {staticBlogs[0].topics.slice(0, 5).map((topic) => (
-                        <Badge key={topic} variant="secondary" className="text-sm">{topic}</Badge>
-                      ))}
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            ) : (
-              <>
-                <Carousel
-                  setApi={setApi}
-                  className="w-full"
-                  opts={{
-                    align: "center",
-                    loop: true,
-                    containScroll: "trimSnaps",
-                  }}
-                  plugins={[
-                    Autoplay({
-                      delay: 4000,
-                      stopOnInteraction: true,
-                      stopOnMouseEnter: true,
-                    }),
-                  ]}
-                >
-                  <CarouselContent className="-ml-2 md:-ml-4">
-                    {staticBlogs.map((blog, index) => (
-                      <CarouselItem key={index} className="pl-2 md:pl-4 basis-full">
-                        <div className="p-1">
-                          <Card className="p-8 hover:border-foreground/20 transition-colors h-full">
-                            <div className="space-y-4 flex flex-col min-h-[280px]">
-                              <div className="flex items-start justify-between gap-4">
-                                <h3 className="text-2xl font-medium break-words flex-1">{blog.name}</h3>
-                                <div className="flex items-center gap-2 flex-shrink-0">
-                                  <span className="text-sm text-muted-foreground">{blog.date}</span>
-                                  <Button variant="ghost" size="icon" asChild>
-                                    <a href={blog.html_url} target="_blank" rel="noopener noreferrer" aria-label="View blog">
-                                      <ExternalLink className="h-5 w-5" />
-                                    </a>
-                                  </Button>
+                  </Card>
+                </div>
+              ) : staticZennBlogs.length > 1 ? (
+                <>
+                  <Carousel
+                    setApi={setApi}
+                    className="w-full"
+                    opts={{
+                      align: "center",
+                      loop: true,
+                      containScroll: "trimSnaps",
+                    }}
+                    plugins={[
+                      Autoplay({
+                        delay: 4000,
+                        stopOnInteraction: true,
+                        stopOnMouseEnter: true,
+                      }),
+                    ]}
+                  >
+                    <CarouselContent className="-ml-2 md:-ml-4">
+                      {staticZennBlogs.map((blog, index) => (
+                        <CarouselItem key={index} className="pl-2 md:pl-4 basis-full">
+                          <div className="p-1">
+                            <Card className="p-8 hover:border-foreground/20 transition-colors h-full">
+                              <div className="space-y-4 flex flex-col min-h-[280px]">
+                                <div className="flex items-start justify-between gap-4">
+                                  <h4 className="text-2xl font-medium break-words flex-1">{blog.name}</h4>
+                                  <div className="flex items-center gap-2 flex-shrink-0">
+                                    <span className="text-sm text-muted-foreground">{blog.date}</span>
+                                    <Button variant="ghost" size="icon" asChild>
+                                      <a href={blog.html_url} target="_blank" rel="noopener noreferrer" aria-label="View Zenn blog">
+                                        <ExternalLink className="h-5 w-5" />
+                                      </a>
+                                    </Button>
+                                  </div>
+                                </div>
+                                {blog.description && (
+                                  <p
+                                    className="text-foreground/80 leading-relaxed text-base flex-grow break-words"
+                                    dangerouslySetInnerHTML={{ __html: blog.description }}
+                                  />
+                                )}
+                                <div className="flex flex-wrap gap-2 pt-2 mt-auto">
+                                  {blog.topics.slice(0, 5).map((topic) => (
+                                    <Badge key={topic} variant="secondary" className="text-sm">{topic}</Badge>
+                                  ))}
                                 </div>
                               </div>
-                              {blog.description && (
-                                <p
-                                  className="text-foreground/80 leading-relaxed text-base flex-grow break-words"
-                                  dangerouslySetInnerHTML={{ __html: blog.description }}
-                                />
-                              )}
-                              <div className="flex flex-wrap gap-2 pt-2 mt-auto">
-                                {blog.topics.slice(0, 5).map((topic) => (
-                                  <Badge key={topic} variant="secondary" className="text-sm">{topic}</Badge>
-                                ))}
-                              </div>
-                            </div>
-                          </Card>
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-                <div className="text-center mt-6 text-sm text-muted-foreground">
-                  スライド {current} / {count}
+                            </Card>
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+                  <div className="text-center mt-6 text-sm text-muted-foreground">
+                    スライド {current} / {count}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center text-muted-foreground py-8">
+                  <p>Zenn ブログ記事はまだありません。</p>
                 </div>
-              </>
-            )}
+              )}
+            </div>
+
+            {/* Qiita サブセクション */}
+            <div>
+              <h3 className="text-2xl font-semibold mb-6 text-center text-foreground/90">Qiita</h3>
+              {staticQiitaBlogs.length === 1 ? (
+                <div>
+                  <Card className="p-8 hover:border-foreground/20 transition-colors">
+                    <div className="space-y-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <h4 className="text-2xl font-medium break-words flex-1">{staticQiitaBlogs[0].name}</h4>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <span className="text-sm text-muted-foreground">{staticQiitaBlogs[0].date}</span>
+                          <Button variant="ghost" size="icon" asChild>
+                            <a href={staticQiitaBlogs[0].html_url} target="_blank" rel="noopener noreferrer" aria-label="View Qiita blog">
+                              <ExternalLink className="h-5 w-5" />
+                            </a>
+                          </Button>
+                        </div>
+                      </div>
+                      {staticQiitaBlogs[0].description && (
+                        <p
+                          className="text-foreground/80 leading-relaxed text-base"
+                          dangerouslySetInnerHTML={{ __html: staticQiitaBlogs[0].description }}
+                        />
+                      )}
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {staticQiitaBlogs[0].topics.slice(0, 5).map((topic) => (
+                          <Badge key={topic} variant="secondary" className="text-sm">{topic}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              ) : staticQiitaBlogs.length > 1 ? (
+                <>
+                  <Carousel
+                    setApi={setApi}
+                    className="w-full"
+                    opts={{
+                      align: "center",
+                      loop: true,
+                      containScroll: "trimSnaps",
+                    }}
+                    plugins={[
+                      Autoplay({
+                        delay: 4000,
+                        stopOnInteraction: true,
+                        stopOnMouseEnter: true,
+                      }),
+                    ]}
+                  >
+                    <CarouselContent className="-ml-2 md:-ml-4">
+                      {staticQiitaBlogs.map((blog, index) => (
+                        <CarouselItem key={index} className="pl-2 md:pl-4 basis-full">
+                          <div className="p-1">
+                            <Card className="p-8 hover:border-foreground/20 transition-colors h-full">
+                              <div className="space-y-4 flex flex-col min-h-[280px]">
+                                <div className="flex items-start justify-between gap-4">
+                                  <h4 className="text-2xl font-medium break-words flex-1">{blog.name}</h4>
+                                  <div className="flex items-center gap-2 flex-shrink-0">
+                                    <span className="text-sm text-muted-foreground">{blog.date}</span>
+                                    <Button variant="ghost" size="icon" asChild>
+                                      <a href={blog.html_url} target="_blank" rel="noopener noreferrer" aria-label="View Qiita blog">
+                                        <ExternalLink className="h-5 w-5" />
+                                      </a>
+                                    </Button>
+                                  </div>
+                                </div>
+                                {blog.description && (
+                                  <p
+                                    className="text-foreground/80 leading-relaxed text-base flex-grow break-words"
+                                    dangerouslySetInnerHTML={{ __html: blog.description }}
+                                  />
+                                )}
+                                <div className="flex flex-wrap gap-2 pt-2 mt-auto">
+                                  {blog.topics.slice(0, 5).map((topic) => (
+                                    <Badge key={topic} variant="secondary" className="text-sm">{topic}</Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            </Card>
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+                  <div className="text-center mt-6 text-sm text-muted-foreground">
+                    スライド {current} / {count}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center text-muted-foreground py-8">
+                  <p>Qiita ブログ記事はまだありません。</p>
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
