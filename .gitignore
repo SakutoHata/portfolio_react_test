@@ -32,6 +32,8 @@ cdk.out/
 !jest.config.js
 !infrastructure/bin/*.ts
 !infrastructure/lib/*.ts
+!postcss.config.js
+!tailwind.config.js
 
 # IDE
 .vscode/
